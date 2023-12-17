@@ -11,6 +11,7 @@ type Orchestrator struct {
 func (o *Orchestrator) Load(lines []string) error {
 	o.schematic.partNumbers = make([]*partNumber, 0)
 	o.schematic.symbols = make(map[coordinate]rune)
+	o.schematic.partMap = make(map[coordinate]*partNumber)
 	for n, line := range lines {
 		partNumbers, symbols, err := parseLine(n, line)
 		if err != nil {
@@ -74,5 +75,5 @@ func isDigit(char rune) bool {
 }
 
 func (o *Orchestrator) Answer() (string, error) {
-	return strconv.Itoa(o.schematic.Total()), nil
+	return strconv.Itoa(o.schematic.GearTotal()), nil
 }
