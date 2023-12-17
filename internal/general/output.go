@@ -12,7 +12,7 @@ func createDirectories(filepath string) error {
 
 
 // Save creates directories and then saves the specified contents to a filepath.
-func Save(filepath string, contents []string) error {
+func Save(filepath string, contents string) error {
 	err := createDirectories(filepath)
 	if err != nil {
 		return err
@@ -24,11 +24,9 @@ func Save(filepath string, contents []string) error {
 	}
 	defer file.Close()
 
-	for _, line := range contents {
-		_, err := file.WriteString(line + "\n")
-		if err != nil {
-			return err
-		}
+	_, err = file.Write([]byte(contents))
+	if err != nil {
+		return err
 	}
 	return nil
 }
