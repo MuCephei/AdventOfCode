@@ -7,12 +7,14 @@ import (
 
 type Orchestrator struct {
 	cards []*card
+	copiesOfCards []int64
 }
 
 func (o *Orchestrator) Load(lines []string) error {
 	o.cards = make([]*card, 0)
 	for _, line := range lines {
 		o.cards = append(o.cards, NewCard(parseLine(line)))
+		o.copiesOfCards = append(o.copiesOfCards, 1)
 	}
 	return nil
 }
@@ -42,9 +44,16 @@ func numberMap(numbers string) map[string]struct{} {
 }
 
 func (o *Orchestrator) Answer() (string, error) {
-	var result int64 = 0
-	for _, card := range o.cards {
-		result += card.Points()
+	for i, card := range o.cards {
+		points := card.Points()
+		copies := o.copiesOfCards[i]
+		for j := int64(1); j <= points; j++ {
+			o.copiesOfCards[int64(i) + j] += copies
+		}
 	}
-	return strconv.FormatInt(result, 10), nil
+	totalCards :=int64(0)
+	for _, copies := range o.copiesOfCards {
+		totalCards += copies
+	}
+	return strconv.FormatInt(totalCards, 10), nil
 }

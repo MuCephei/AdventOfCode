@@ -1,9 +1,5 @@
 package four
 
-import (
-	"math"
-)
-
 type card struct {
 	winningNumbers map[string]struct{}
 	numbers map[string]struct{}
@@ -23,8 +19,5 @@ func (c *card) Points() int64 {
 			winners += 1
 		}
 	}
-	if winners == 0 {
-		return 0
-	}
-	return int64(math.Pow(float64(2), float64(winners - 1)))
+	return int64(winners)
 }
