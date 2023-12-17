@@ -3,11 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
-	"three"
 
 	"internal/general"
 	"internal/one"
 	"internal/two"
+	"internal/three"
+	"internal/four"
 )
 
 const inputDirectory string = "assets/input"
@@ -30,6 +31,9 @@ var problemSolvers map[string]func() Solver = map[string]func() Solver{
 	},
 	"03.txt": func() Solver {
 		return &three.Orchestrator{}
+	},
+	"04.txt": func() Solver {
+		return &four.Orchestrator{}
 	},
 }
 

@@ -6,4 +6,5 @@ use (
 	./internal/one
 	./internal/two
 	./internal/three
+	./internal/four
 )
