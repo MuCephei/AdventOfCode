@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"three"
 
 	"internal/general"
 	"internal/one"
@@ -26,6 +27,9 @@ var problemSolvers map[string]func() Solver = map[string]func() Solver{
 	},
 	"02.txt": func () Solver {
 		return &two.Orchestrator{}
+	},
+	"03.txt": func() Solver {
+		return &three.Orchestrator{}
 	},
 }
 

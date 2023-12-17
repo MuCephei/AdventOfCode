@@ -14,3 +14,5 @@ require (
 replace internal/one => ./internal/one
 
 replace internal/two => ./internal/two
+
+replace internal/three => ./internal/three
