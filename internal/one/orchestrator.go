@@ -8,8 +8,9 @@ type Orchestrator struct {
 	input []string
 }
 
-func (o *Orchestrator) Load(lines []string) {
+func (o *Orchestrator) Load(lines []string) error {
 	o.input = lines
+	return nil
 }
 
 func (o *Orchestrator) Answer() (string, error){

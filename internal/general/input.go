@@ -6,7 +6,7 @@ import (
 )
 
 type DataStore interface {
-	Load(lines []string)
+	Load(lines []string) error
 }
 
 func Load(ds DataStore, filename string) (error) {
@@ -14,8 +14,7 @@ func Load(ds DataStore, filename string) (error) {
 	if err != nil {
 		return err
 	}
-	ds.Load(lines)
-	return nil
+	return ds.Load(lines)
 }
 
 // load loads a file line by line into a string slice.

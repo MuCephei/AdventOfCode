@@ -6,6 +6,7 @@ import (
 
 	"internal/general"
 	"internal/one"
+	"internal/two"
 )
 
 const inputDirectory string = "assets/input"
@@ -22,6 +23,9 @@ type Solver interface {
 var problemSolvers map[string]func() Solver = map[string]func() Solver{
 	"01.txt": func () Solver {
 		return &one.Orchestrator{}
+	},
+	"02.txt": func () Solver {
+		return &two.Orchestrator{}
 	},
 }
 
