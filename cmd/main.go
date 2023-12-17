@@ -11,20 +11,29 @@ import (
 const inputDirectory string = "assets/input"
 const outputDirectory string = "assets/output"
 
-type solver interface {
+type Solver interface {
+	general.DataStore
 	Answer() (string, error)
+}
+
+// Is this elegant? Better then before.
+// Would I put this into production? Goodness no.
+// Will I bother making a nicer solution by the end of AoC? Maybe.
+var problemSolvers map[string]func() Solver = map[string]func() Solver{
+	"01.txt": func () Solver {
+		return &one.Orchestrator{}
+	},
 }
 
 func main() {
 	var problem = flag.String("problem", "example", "input and output filename, defaults to example")
 	flag.Parse()
-	lines, err := general.Load(inputDirectory + "/" + *problem)
+	orchestrator := problemSolvers[*problem]()
+	err := general.Load(orchestrator, inputDirectory + "/" + *problem)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	// Is this elegant? No. Will I bother making a nicer solution by the end of AoC? Maybe.
-	orchestrator := one.NewOrchestrator(lines)
 
 	answer, err := orchestrator.Answer()
 	if err != nil {

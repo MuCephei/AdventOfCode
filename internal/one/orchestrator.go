@@ -4,16 +4,15 @@ import (
 	"strconv"
 )
 
-type orchestrator struct {
+type Orchestrator struct {
 	input []string
 }
 
-func NewOrchestrator(lines []string) *orchestrator {
-	o := orchestrator{input: lines}
-	return &o
+func (o *Orchestrator) Load(lines []string) {
+	o.input = lines
 }
 
-func (o *orchestrator) Answer() (string, error){
+func (o *Orchestrator) Answer() (string, error){
 	result := 0
 	for _, line := range o.input {
 		num, err := getCalibrationNumber(line)

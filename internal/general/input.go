@@ -5,8 +5,21 @@ import (
 	"os"
 )
 
-// Load loads a file line by line into a string slice.
-func Load(filename string) ([]string, error) {
+type DataStore interface {
+	Load(lines []string)
+}
+
+func Load(ds DataStore, filename string) (error) {
+	lines, err := loadFile(filename)
+	if err != nil {
+		return err
+	}
+	ds.Load(lines)
+	return nil
+}
+
+// load loads a file line by line into a string slice.
+func loadFile(filename string) ([]string, error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		return nil, err
