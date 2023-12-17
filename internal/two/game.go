@@ -2,23 +2,39 @@ package two
 
 type game struct {
 	id   int
-	draw []*draw
+	draws []*draw
 }
 
 func NewGame(id int, draws []*draw) *game {
 	return &game{
 		id:   id,
-		draw: draws,
+		draws: draws,
 	}
 }
 
 func (g *game) Possible(reds, greens, blues int) bool {
-	for _, d := range g.draw {
+	for _, d := range g.draws {
 		if !d.Possible(reds, greens, blues) {
 			return false
 		}
 	}
 	return true
+}
+
+func (g *game) Power() int {
+	red, green, blue := 0, 0, 0
+	for _, draw := range g.draws {
+		if draw.reds > red {
+			red = draw.reds
+		}
+		if draw.greens > green {
+			green = draw.greens
+		}
+		if draw.blues > blue {
+			blue = draw.blues
+		}
+	}
+	return red * green * blue
 }
 
 type draw struct {

@@ -63,12 +63,10 @@ func getColour(re *regexp.Regexp, draw string) (int, error) {
 	return count, nil
 }
 
-func (o *Orchestrator) Answer() (string, error){
+func (o *Orchestrator) Answer() (string, error) {
 	result := 0
 	for _, game := range o.games {
-		if game.Possible(12, 13, 14) {
-			result += game.id
-		}
+		result += game.Power()
 	}
 	return strconv.Itoa(result), nil
 }
