@@ -22,7 +22,7 @@
             "env": {},
             "args": [
                 "--problem",
-                "01"
+                "01.txt"
             ],
             "showLog": true
         }
