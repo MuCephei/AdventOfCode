@@ -7,4 +7,5 @@ use (
 	./internal/two
 	./internal/three
 	./internal/four
+	./internal/five
 )
