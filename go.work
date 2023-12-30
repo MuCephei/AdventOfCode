@@ -8,4 +8,5 @@ use (
 	./internal/three
 	./internal/four
 	./internal/five
+	./internal/six
 )
