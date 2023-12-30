@@ -13,6 +13,7 @@ func TestRace(t *testing.T) {
 		{time: 7, record: 9, expectedWinners: 4},
 		{time: 15, record: 40, expectedWinners: 8},
 		{time: 30, record: 200, expectedWinners: 9},
+		{time: 71530, record: 940200, expectedWinners: 71503},
 	}
 	for _, test := range tests {
 		race := NewRace(test.time, test.record)

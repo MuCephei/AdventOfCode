@@ -17,25 +17,21 @@ func (o *Orchestrator) Load(lines []string) error {
 	if !found {
 		return errors.New("Could not find times")
 	}
-	for _, t := range strings.Fields(timeline) {
-		time, err := strconv.Atoi(t)
-		if err != nil {
-			return err
-		}
-		times = append(times, time)
+	time, err := strconv.Atoi(strings.Join(strings.Fields(timeline), ""))
+	if err != nil {
+		return err
 	}
+	times = append(times, time)
 
 	_, recordline, found := strings.Cut(lines[1], ":")
 	if !found {
 		return errors.New("Could not find times")
 	}
-	for _, r := range strings.Fields(recordline) {
-		record, err := strconv.Atoi(r)
-		if err != nil {
-			return err
-		}
-		records = append(records, record)
+	record, err := strconv.Atoi(strings.Join(strings.Fields(recordline), ""))
+	if err != nil {
+		return err
 	}
+	records = append(records, record)
 	o.races = make([]*race, 0)
 
 	for i, time := range times {
