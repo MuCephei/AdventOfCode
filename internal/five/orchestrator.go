@@ -9,8 +9,18 @@ import (
 const delimiter string = "|"
 
 type Orchestrator struct {
-	seeds      []int64
+	seeds      []*seed
 	converters map[string]*converter
+	inverters  map[string]*converter
+}
+
+type seed struct {
+	start  int64
+	length int64
+}
+
+func (s *seed) in(x int64) bool {
+	return x >= s.start && x < s.start+s.length
 }
 
 func (o *Orchestrator) Load(lines []string) error {
@@ -24,22 +34,31 @@ func (o *Orchestrator) Load(lines []string) error {
 		return err
 	}
 	o.converters = converters
+	o.inverters = make(map[string]*converter)
+	for _, converter := range o.converters {
+		o.inverters[converter.to] = converter
+	}
 
 	return nil
 }
 
-func parseSeeds(line string) ([]int64, error) {
-	seeds := make([]int64, 0)
+func parseSeeds(line string) ([]*seed, error) {
+	seeds := make([]*seed, 0)
 	_, seedList, found := strings.Cut(line, "seeds:")
 	if !found {
 		return nil, errors.New("Could not parse initial seeds")
 	}
-	for _, seed := range strings.Split(strings.TrimSpace(seedList), " ") {
-		s, err := strconv.ParseInt(seed, 10, 0)
+	seedInfo := strings.Split(strings.TrimSpace(seedList), " ")
+	for i := 0; i < len(seedInfo); i += 2 {
+		start, err := strconv.ParseInt(seedInfo[i], 10, 0)
 		if err != nil {
 			return nil, err
 		}
-		seeds = append(seeds, s)
+		length, err := strconv.ParseInt(seedInfo[i+1], 10, 0)
+		if err != nil {
+			return nil, err
+		}
+		seeds = append(seeds, &seed{start: start, length: length})
 	}
 	return seeds, nil
 }
@@ -69,8 +88,7 @@ func parseConverter(section string) (*converter, error) {
 	}
 	converter := &converter{
 		from: from,
-		to: to,
-		subconverters: make([]*subConverter, 0),
+		to:   to,
 	}
 	for _, conversion := range strings.Split(conversions, delimiter) {
 		conversionParts := strings.Split(conversion, " ")
@@ -96,16 +114,24 @@ func (o *Orchestrator) Convert(x int64, category string) (int64, string) {
 	return converter.Convert(x), converter.to
 }
 
+func (o *Orchestrator) Invert(x int64, category string) (int64, string) {
+	inverter := o.inverters[category]
+	return inverter.Invert(x), inverter.from
+}
+
 func (o *Orchestrator) Answer() (string, error) {
-	best := int64(0)
-	for _, seed := range o.seeds {
-		x, category := o.Convert(seed, "seed")
-		for category != "location" {
-			x, category = o.Convert(x, category)
+	x := int64(0)
+	for true {
+		y, category := o.Invert(x, "location")
+		for category != "seed" {
+			y, category = o.Invert(y, category)
 		}
-		if best == 0 || best > x {
-			best = x
+		for _, seed := range o.seeds {
+			if seed.in(y) {
+				return strconv.FormatInt(x, 10), nil
+			}
 		}
+		x++
 	}
-	return strconv.FormatInt(best, 10), nil
+	return "", errors.New("Reached end of infinte loop")
 }

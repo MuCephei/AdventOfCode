@@ -4,12 +4,12 @@ import (
 	"flag"
 	"fmt"
 
+	"internal/five"
+	"internal/four"
 	"internal/general"
 	"internal/one"
-	"internal/two"
 	"internal/three"
-	"internal/four"
-	"internal/five"
+	"internal/two"
 )
 
 const inputDirectory string = "assets/input"
