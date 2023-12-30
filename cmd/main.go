@@ -11,6 +11,7 @@ import (
 	"internal/six"
 	"internal/three"
 	"internal/two"
+	"internal/seven"
 )
 
 const inputDirectory string = "assets/input"
@@ -31,6 +32,7 @@ var problemSolvers map[string]func() Solver = map[string]func() Solver{
 	"04.txt": func() Solver { return &four.Orchestrator{} },
 	"05.txt": func() Solver { return &five.Orchestrator{} },
 	"06.txt": func() Solver { return &six.Orchestrator{} },
+	"07.txt": func() Solver { return &seven.Orchestrator{} },
 }
 
 func main() {

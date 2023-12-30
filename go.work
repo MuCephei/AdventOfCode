@@ -9,4 +9,5 @@ use (
 	./internal/four
 	./internal/five
 	./internal/six
+	./internal/seven
 )

@@ -95,6 +95,20 @@
                 "06.txt"
             ],
             "showLog": true
+        },
+        {
+            "name": "Day 7",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "cmd",
+            "cwd": "${workspaceFolder}",
+            "env": {},
+            "args": [
+                "--problem",
+                "07.txt"
+            ],
+            "showLog": true
         }
     ]
 }
