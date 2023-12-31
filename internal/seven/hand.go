@@ -13,11 +13,12 @@ const (
 )
 
 var cardMappings map[rune]int = map[rune]int{
-	'A': 0, 'K': 1, 'Q': 2, 'J': 3, 'T': 4, '9': 5,
-	'8': 6, '7': 7, '6': 8, '5': 9, '4': 10, '3': 11, '2': 12,
+	'A': 0, 'K': 1, 'Q': 2, 'T': 3, '9': 4,
+	'8': 5, '7': 6, '6': 7, '5': 8, '4': 9, '3': 10, '2': 11, 'J': 12, 
 }
 
-func getRanking(values []int) ranking {
+func getRanking(values []int, jokers int) ranking {
+	// Could this be neater? Yes.
 	pair := false
 	triple := false
 	for _, value := range values {
@@ -25,6 +26,9 @@ func getRanking(values []int) ranking {
 		case 5:
 			return fiveOfAKind
 		case 4:
+			if jokers == 1 {
+				return fiveOfAKind
+			}
 			return fourOfAKind
 		case 3:
 			if pair {
@@ -36,16 +40,46 @@ func getRanking(values []int) ranking {
 				return fullHouse
 			}
 			if pair {
+				if jokers >= 1 {
+					return fullHouse
+				}
 				return twoPair
 			}
 			pair = true
 		}
 	}
 	if triple {
+		if jokers == 1 {
+			return fourOfAKind
+		}
+		if jokers == 2 {
+			return fiveOfAKind
+		}
 		return threeOfAKind
 	}
 	if pair {
+		if jokers == 1 {
+			return threeOfAKind
+		}
+		if jokers == 2 {
+			return fourOfAKind
+		}
+		if jokers == 3 {
+			return fiveOfAKind
+		}
 		return onePair
+	}
+	if jokers == 1 {
+		return onePair
+	}
+	if jokers == 2 {
+		return threeOfAKind
+	}
+	if jokers == 3 {
+		return fourOfAKind
+	}
+	if jokers == 4 || jokers == 5 {
+		return fiveOfAKind
 	}
 	return highCard
 }
@@ -58,13 +92,18 @@ type hand struct {
 
 func NewHand(cards string, bid int) *hand {
 	values := make([]int, len(cardMappings))
+	jokers := 0
 	for _, card := range []rune(cards) {
-		values[cardMappings[card]] += 1
+		if card == 'J' {
+			jokers += 1
+		} else {
+			values[cardMappings[card]] += 1
+		}
 	}
 
 	h := &hand{
 		cards: cards,
-		rank:  getRanking(values),
+		rank:  getRanking(values, jokers),
 		bid:   bid,
 	}
 
