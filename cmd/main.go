@@ -13,35 +13,41 @@ const outputDirectory string = "assets/output"
 
 type Solver interface {
 	general.DataStore
-	Answer() (string, error)
-}
-
-// Is this elegant? Better then before.
-// Would I put this into production? Goodness no.
-// Will I bother making a nicer solution by the end of AoC? Maybe.
-var problemSolvers map[string]func() Solver = map[string]func() Solver{
-	"2024/01.txt": func() Solver { return &one.Comparer{} },
+	AnswerA() (string, error)
+	AnswerB() (string, error)
 }
 
 func main() {
 	var problem = flag.String("problem", "example", "input and output filename, defaults to example")
 	flag.Parse()
-	orchestrator := problemSolvers[*problem]()
+	orchestrator := &one.Comparer{}
 	err := general.Load(orchestrator, inputDirectory+"/"+*problem)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	answer, err := orchestrator.Answer()
+	a, err := orchestrator.AnswerA()
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	err = general.Save(outputDirectory+"/"+*problem, answer)
+	err = general.Save(outputDirectory+"/A/"+*problem, a)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
+
+	b, err := orchestrator.AnswerB()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	err = general.Save(outputDirectory+"/B/"+*problem, b)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
 	fmt.Println("Problem " + *problem + " success!")
 }

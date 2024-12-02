@@ -14,6 +14,20 @@
                 "2024/01.txt"
             ],
             "showLog": true
+        },
+        {
+            "name": "Day 1 test",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "cmd",
+            "cwd": "${workspaceFolder}",
+            "env": {},
+            "args": [
+                "--problem",
+                "2024/test01.txt"
+            ],
+            "showLog": true
         }
     ]
 }

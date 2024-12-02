@@ -9,7 +9,8 @@ import (
 )
 
 type Comparer struct {
-	lists [][]int
+	lists  [][]int
+	counts map[int]int
 }
 
 func (c *Comparer) Load(lines []string) error {
@@ -34,15 +35,28 @@ func (c *Comparer) Load(lines []string) error {
 	for i := range c.lists {
 		sort.Ints(c.lists[i])
 	}
+
+	c.counts = make(map[int]int)
+	for _, value := range c.lists[1] {
+		c.counts[value] += 1
+	}
 	return nil
 }
 
-func (c *Comparer) Answer() (string, error) {
+func (c *Comparer) AnswerA() (string, error) {
 	result := 0
 	a := c.lists[0]
 	b := c.lists[1]
 	for i := range a {
 		result += abs(a[i], b[i])
+	}
+	return strconv.Itoa(result), nil
+}
+
+func (c *Comparer) AnswerB() (string, error) {
+	result := 0
+	for _, a := range c.lists[0] {
+		result += a * c.counts[a]
 	}
 	return strconv.Itoa(result), nil
 }
