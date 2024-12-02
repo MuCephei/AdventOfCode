@@ -1,30 +1,3 @@
-module github.com/MuCephei/AdventOfCode2023
+module github.com/mucephei/adventofcode
 
-go 1.21.5
-
-require (
-	internal/five v0.0.0-00010101000000-000000000000
-	internal/four v0.0.0-00010101000000-000000000000
-	internal/general v1.0.0
-	internal/one v0.0.0-00010101000000-000000000000
-	internal/seven v0.0.0-00010101000000-000000000000
-	internal/six v0.0.0-00010101000000-000000000000
-	internal/three v0.0.0-00010101000000-000000000000
-	internal/two v0.0.0-00010101000000-000000000000
-)
-
-replace internal/general => ./internal/general
-
-replace internal/one => ./internal/one
-
-replace internal/two => ./internal/two
-
-replace internal/three => ./internal/three
-
-replace internal/four => ./internal/four
-
-replace internal/five => ./internal/five
-
-replace internal/six => ./internal/six
-
-replace internal/seven => ./internal/seven
+go 1.23.3

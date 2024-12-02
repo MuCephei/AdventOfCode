@@ -1,4 +1,4 @@
-package general
+package adventofcode
 
 import (
 	"bufio"
@@ -9,7 +9,7 @@ type DataStore interface {
 	Load(lines []string) error
 }
 
-func Load(ds DataStore, filename string) (error) {
+func Load(ds DataStore, filename string) error {
 	lines, err := loadFile(filename)
 	if err != nil {
 		return err

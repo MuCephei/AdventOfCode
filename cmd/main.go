@@ -4,14 +4,8 @@ import (
 	"flag"
 	"fmt"
 
-	"internal/five"
-	"internal/four"
-	"internal/general"
-	"internal/one"
-	"internal/six"
-	"internal/three"
-	"internal/two"
-	"internal/seven"
+	one "github.com/mucephei/adventofcode/internal/2024/one"
+	general "github.com/mucephei/adventofcode/internal/general"
 )
 
 const inputDirectory string = "assets/input"
@@ -26,13 +20,7 @@ type Solver interface {
 // Would I put this into production? Goodness no.
 // Will I bother making a nicer solution by the end of AoC? Maybe.
 var problemSolvers map[string]func() Solver = map[string]func() Solver{
-	"01.txt": func() Solver { return &one.Orchestrator{} },
-	"02.txt": func() Solver { return &two.Orchestrator{} },
-	"03.txt": func() Solver { return &three.Orchestrator{} },
-	"04.txt": func() Solver { return &four.Orchestrator{} },
-	"05.txt": func() Solver { return &five.Orchestrator{} },
-	"06.txt": func() Solver { return &six.Orchestrator{} },
-	"07.txt": func() Solver { return &seven.Orchestrator{} },
+	"2024/01.txt": func() Solver { return &one.Orchestrator{} },
 }
 
 func main() {
