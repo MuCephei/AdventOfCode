@@ -20,7 +20,7 @@ type Solver interface {
 // Would I put this into production? Goodness no.
 // Will I bother making a nicer solution by the end of AoC? Maybe.
 var problemSolvers map[string]func() Solver = map[string]func() Solver{
-	"2024/01.txt": func() Solver { return &one.Orchestrator{} },
+	"2024/01.txt": func() Solver { return &one.Comparer{} },
 }
 
 func main() {
